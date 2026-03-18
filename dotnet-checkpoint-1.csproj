@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>dotnet_checkpoint_1</RootNamespace>
+    <UserSecretsId>b2043c03-f21f-45ed-8cfa-c23c390f767a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
