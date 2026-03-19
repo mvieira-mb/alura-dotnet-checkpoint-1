@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace dotnet_checkpoint_1.Controllers;
+namespace DotnetCheckpoint1.Controllers;
 
 [ApiController]
 [Route("[controller]")]

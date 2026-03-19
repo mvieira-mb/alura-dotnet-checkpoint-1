@@ -34,7 +34,7 @@ A API estará disponível em `https://localhost:{porta}`. A documentação OpenA
 ## Estrutura do projeto
 
 ```
-dotnet-checkpoint-1/
+DotnetCheckpoint1/
 ├── Controllers/        # Controllers da API
 ├── Properties/         # Configurações de execução
 ├── appsettings.json    # Configurações da aplicação
