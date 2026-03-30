@@ -1,6 +1,7 @@
 using System.Text;
 using DotnetCheckpoint1.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -27,6 +28,7 @@ builder.Services.AddIdentityApiEndpoints<AppUser>(options =>
 
     options.User.RequireUniqueEmail = true;
 })
+.AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -52,6 +54,26 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    using var scope = app.Services.CreateScope();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    string[] roles = ["Admin", "Instructor", "Student"];
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+    var adminEmail = "admin@example.com";
+    if (await userManager.FindByEmailAsync(adminEmail) is null)
+    {
+        var admin = new AppUser { UserName = adminEmail, Email = adminEmail };
+        await userManager.CreateAsync(admin, builder.Configuration["Seed:AdminPassword"]!);
+        await userManager.AddToRoleAsync(admin, "Admin");
+    }
 }
 
 app.UseHttpsRedirection();
